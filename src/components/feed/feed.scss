@@ -1,0 +1,98 @@
+.feed_container {
+    width: 979px;
+    margin-bottom: 18px;
+    background: #FFFFFF;
+    border: 1px solid #F1F1F1;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+    padding: 22px 24px;
+}
+
+
+.feed_userContent {
+    background: #FFFFFF;
+    border: 1px solid #F1F1F1;
+    border-radius: 11px;
+    padding: 22px;
+}
+.feed_userInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-top: 30px;
+}
+
+.feed_userInfo-icon {
+    margin-right: 14px;
+}
+
+.feed_userInfo-name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.feed_mainContent {
+    padding-top: 45px;
+    margin-bottom: 25px;
+}
+
+.feed_title {
+    margin-bottom: 15px;
+}
+
+.feed_content-text {
+    padding-bottom: 33px;
+}
+
+.feed_reactions {
+    display: flex;
+    align-items: center;
+    background: #FAFBFC;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px 6px 6px 6px;
+    width: 20%;
+}
+
+.likes{
+    display: flex;
+}
+
+.icon_pic {
+    margin-right: 5px;
+}
+
+.btn {
+    display: flex;
+}
+
+.fork-amount {
+    padding-left: 5px;
+}
+table {
+    border-collapse: collapse;
+   
+    
+}
+th {
+    border: 1px solid rgba(27, 31, 35, 0.15);
+ }
+.th_star {
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 0;
+}
+.th_likes {
+    border-top: 0;
+    border-bottom: 0;
+}
+.th_fork {
+    border-top: 0;
+    border-bottom: 0;
+}
+.th_amount {
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 0;
+    padding-left: 6px;
+}
+

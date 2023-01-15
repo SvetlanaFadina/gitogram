@@ -1,0 +1,45 @@
+.icons {
+    display: flex;
+    align-items: center;
+}
+.icon_ref {
+    color: #262626;
+    width: 24px;
+    height: 24px;
+    margin-right: 25px;
+
+    &:last-child {
+        margin-right: 0px;
+    }
+}
+.svg {
+    height: 22px;
+    width: 22px;
+}
+.stories {
+    display: flex;
+    justify-content: space-between;
+}
+
+.feed_comment-block {
+    padding-left: 122px;
+    margin-bottom: 24px;
+}
+
+.feed_date {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.feed_svg {
+    width: 44px;
+    height: 44px;
+    margin-right: 14px;
+}
+
+.feed_user {
+    display: flex;
+    align-items: center;
+    width: 980px;
+    margin: 0 auto;
+    margin-bottom: 32px;
+}

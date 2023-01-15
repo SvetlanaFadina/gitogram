@@ -1,0 +1,8 @@
+export { default as home } from './home.vue'
+export { default as photo } from './photo.vue'
+export { default as exit } from './exit.vue'
+export { default as triangle } from './triangle.vue'
+export { default as avatar1 } from './avatar1.vue'
+export { default as star } from './star.vue'
+export { default as fork } from './fork.vue'
+export { default as avatar2 } from './avatar2.vue'
