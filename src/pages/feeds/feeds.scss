@@ -6,9 +6,12 @@
     display: flex;
     justify-content: space-evenly;
 }
+.feed_mainContent {
+    width: 980px;
+    margin: auto;
+}
 
 .feed_comment-block {
-    padding-left: 122px;
     margin-bottom: 24px;
 }
 
@@ -25,8 +28,6 @@
 .feed_user {
     display: flex;
     align-items: center;
-    width: 980px;
-    margin: 0 auto;
     margin-bottom: 32px;
 }
 .icons {
