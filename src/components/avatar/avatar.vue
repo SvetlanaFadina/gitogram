@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="feed_userInfo">
-                <icon class="feed_userInfo-icon" name="avatar1"></icon>
+                <img :src="avatar" class="feed_userInfo-icon">
                 <h2 class="feed_userInfo-name">{{ username }}</h2>
             </div>
 </template>

@@ -3,7 +3,7 @@
         <topline>
             <template #headline>
                 <div class="logo">
-                    <h1>Gitogram/</h1>
+                    <icon class="logo_svg" name="gitogram"></icon>
                 </div>
                 <div class="icons">
                     <a href="#" class="icon_ref">
@@ -30,53 +30,29 @@
         </topline>
     </div>
     <div class="feed_mainContent">
-        <div class="feed_user">
-        <icon class="svg feed_svg" name="avatar1"></icon>
-        <avatar username="John"></avatar>
-        </div>
-            <feed>
-                <template #card>
-                    <card title="Vue.js" text="JavaScript framework for building interactive web applications ⚡"></card>
-                </template>
-            </feed>
-            <div class="feed_comment-block">
-                <toggler @onToggle="toggle"></toggler>
-                <div class="feed_comments" v-if="shown">
-                    <ul class="feed_comment-list">
-                        <li class="feed_comment-item" v-for="user in users" :key="user.id">
-                            <comment
-                                :username="user.username"
-                                :text="user.text"></comment>
-                        </li>
-                    </ul>
-                </div>
-                <div class="feed_date">15 May</div>
-            </div>
-        </div>
-        <div class="feed_mainContent">
-            <div class="feed_user">
-        <icon class="svg feed_svg" name="avatar2"></icon>
-        <avatar username="Camille"></avatar>
-        </div>
-            <feed>
-                <template #card>
-                    <card title="React.js" text="Open source JavaScript library used for designing user interfaces"></card>
-                </template>
-            </feed>
-            <div class="feed_comment-block">
-                <toggler @onToggle="toggle"></toggler>
-                <div class="feed_comments" v-if="shown">
-                    <ul class="feed_comment-list">
-                        <li class="feed_comment-item" v-for="user in users" :key="user.id">
-                            <comment
-                                :username="user.username"
-                                :text="user.text"></comment>
-                        </li>
-                    </ul>
-                </div>
-                <div class="feed_date">15 May</div>
-            </div>
-        </div>
+        <ul class="feed_list">
+            <li class="feed_item">
+                <feed>
+                    <template #avatar>
+                        <avatar username="joshua_l"></avatar>
+                    </template>
+                    <template #card>
+                        <card title="Vue.js" text="JavaScript framework for building interactive web applications ⚡"></card>
+                    </template>
+                </feed>
+            </li>
+            <li class="feed_item">
+                <feed>
+                    <template #avatar>
+                        <avatar username="Camille"></avatar>
+                    </template>
+                    <template #card>
+                        <card title="React.js" text="Open source JavaScript library used for designing user interfaces"></card>
+                    </template>
+                </feed>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -85,9 +61,6 @@ import { topline } from '../../components/topline'
 import { icon } from '../../icons'
 import stories from './data.json'
 import { feed } from '../../components/feed'
-import { comment } from '../../components/comment'
-import { toggler } from '../../components/toggler/'
-import users from './users.json'
 import { card } from '../../components/card'
 import { avatar } from '../../components/avatar'
 
@@ -99,22 +72,13 @@ export default {
     icon,
     StoryUserItem,
     feed,
-    comment,
-    toggler,
     card,
     avatar
   },
   data () {
     return {
-      shown: false,
-      stories,
-      users
+      stories
 
-    }
-  },
-  methods: {
-    toggle (isOpened) {
-      this.shown = isOpened
     }
   }
 }

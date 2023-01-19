@@ -50,49 +50,29 @@
     background: #FAFBFC;
     border: 1px solid rgba(27, 31, 35, 0.15);
     border-radius: 6px 6px 6px 6px;
-    width: 20%;
+    width: 21%;
 }
 
-.likes{
+.feed_comment-block {
+    padding-left: 122px;
+    margin-bottom: 24px;
+}
+
+.feed_date {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.feed_svg {
+    width: 44px;
+    height: 44px;
+    margin-right: 14px;
+}
+
+.feed_user {
     display: flex;
-}
-
-.icon_pic {
-    margin-right: 5px;
-}
-
-.btn {
-    display: flex;
-}
-
-.fork-amount {
-    padding-left: 5px;
-}
-table {
-    border-collapse: collapse;
-   
-    
-}
-th {
-    border: 1px solid rgba(27, 31, 35, 0.15);
- }
-.th_star {
-    border-top: 0;
-    border-bottom: 0;
-    border-left: 0;
-}
-.th_likes {
-    border-top: 0;
-    border-bottom: 0;
-}
-.th_fork {
-    border-top: 0;
-    border-bottom: 0;
-}
-.th_amount {
-    border-top: 0;
-    border-bottom: 0;
-    border-right: 0;
-    padding-left: 6px;
+    align-items: center;
+    width: 980px;
+    margin: 0 auto;
+    margin-bottom: 32px;
 }
 

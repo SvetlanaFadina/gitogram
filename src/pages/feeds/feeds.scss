@@ -1,24 +1,10 @@
-.icons {
-    display: flex;
-    align-items: center;
-}
-.icon_ref {
-    color: #262626;
-    width: 24px;
-    height: 24px;
-    margin-right: 25px;
-
-    &:last-child {
-        margin-right: 0px;
-    }
-}
-.svg {
-    height: 22px;
-    width: 22px;
+.logo_svg {
+    width: 174px;
+    height: 36px;
 }
 .stories {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .feed_comment-block {
@@ -42,4 +28,22 @@
     width: 980px;
     margin: 0 auto;
     margin-bottom: 32px;
+}
+.icons {
+    display: flex;
+    align-items: center;
+}
+.icon_ref {
+    color: #262626;
+    width: 24px;
+    height: 24px;
+    margin-right: 25px;
+
+    &:last-child {
+        margin-right: 0px;
+    }
+}
+.svg {
+    height: 22px;
+    width: 22px;
 }

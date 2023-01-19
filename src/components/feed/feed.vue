@@ -1,50 +1,57 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="c-feed">
+        <div class="feed_user">
+            <icon class="svg feed_svg" name="avatar1"></icon>
+            <slot name="avatar">
+                <avatar></avatar>
+            </slot>
+        </div>
         <div class="x-container feed_container">
             <slot name="card">
                 <card></card>
             </slot>
                 <div class="feed_reactions">
-                    <table>
-                        <tr>
-                            <th class="th_star">
-                                <button class="btn likes_btn">
-                                    <div class="icon_pic">
-                                        <icon name="star"></icon>
-                                    </div>
-                                    <div class="likes-text">Star</div>
-                                </button>
-                            </th>
-                            <th class="th_likes">
-                                <div class="likes-amont">156k</div>
-                            </th>
-                            <th class="th_fork">
-                                <button class="btn fork_btn">
-                                    <div class="icon_pic">
-                                        <icon name="fork"></icon>
-                                    </div>
-                                    <div class="fork-text">Fork</div>
-                                </button>
-                            </th>
-                            <th class="th_amount">
-                                <div class="fork-amont">4</div>
-                            </th>
-                        </tr>
-                    </table>
+                    <statistics></statistics>
                 </div>
+        </div>
+        <div class="feed_comment-block">
+            <toggler @onToggle="toggle"></toggler>
+            <div class="feed_comments" v-if="shown">
+                <ul class="feed_comment-list">
+                    <li class="feed_comment-item" v-for="user in users" :key="user.id">
+                        <comment
+                                :username="user.username"
+                                :text="user.text">
+                        </comment>
+                    </li>
+                </ul>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
-import { icon } from '../../icons'
 import { card } from '../card'
+import { statistics } from '../statistics'
+import { icon } from '../../icons/'
+import { toggler } from '../../components/toggler/'
+import users from '../../pages/feeds/users.json'
+import { comment } from '../comment/'
 
 export default {
   components: {
+    card,
+    statistics,
     icon,
-    card
+    toggler,
+    comment
+  },
+  data () {
+    return {
+      shown: false,
+      users
+    }
   },
   methods: {
     toggle (isOpened) {
