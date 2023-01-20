@@ -3,9 +3,9 @@
     <div class="c-feed">
         <div class="feed_user">
             <icon class="svg feed_svg" name="avatar1"></icon>
-            <slot name="avatar">
-                <avatar></avatar>
-            </slot>
+            <div class="feed_avatar">
+                <avatar>{{ username }}</avatar>
+            </div>
         </div>
         <div class="x-container feed_container">
             <slot name="card">
@@ -56,6 +56,12 @@ export default {
   methods: {
     toggle (isOpened) {
       this.shown = isOpened
+    }
+  },
+  props: {
+    username: {
+      type: String,
+      required: true
     }
   }
 }

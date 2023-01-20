@@ -32,20 +32,16 @@
     <div class="feed_mainContent">
         <ul class="feed_list">
             <li class="feed_item">
-                <feed>
-                    <template #avatar>
-                        <avatar username="joshua_l"></avatar>
-                    </template>
+                <feed username="joshua_l">
+                    <avatar></avatar>
                     <template #card>
                         <card title="Vue.js" text="JavaScript framework for building interactive web applications ⚡"></card>
                     </template>
                 </feed>
             </li>
             <li class="feed_item">
-                <feed>
-                    <template #avatar>
-                        <avatar username="Camille"></avatar>
-                    </template>
+                <feed username="Camille">
+                        <avatar></avatar>
                     <template #card>
                         <card title="React.js" text="Open source JavaScript library used for designing user interfaces"></card>
                     </template>
