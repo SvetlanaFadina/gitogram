@@ -1,0 +1,28 @@
+.btn {
+    padding: 15px 24px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    width: 270px;
+    height: 44px;
+    margin-bottom: 32px;
+}
+
+.btn_green{
+    background: green;
+}
+.btn::before {
+    content: "Follow";
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.btn:hover {
+    background: grey;
+    
+}
+
+.btn:hover::before {
+    content: attr(data-hover-text);
+    color: #FFFFFF;
+    font-weight: 700;
+}

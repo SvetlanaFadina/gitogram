@@ -1,0 +1,23 @@
+.loading {
+    position: relative;
+    overflow: hidden;
+    height: 2px;
+    background: #31AE544D;
+    border-radius: 1px;
+
+    &.active {
+        .indicator {
+            width: 100%;
+        }
+    }
+}
+
+.indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background: #31AE54;
+    transition: 5s;
+}

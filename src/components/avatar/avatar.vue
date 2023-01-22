@@ -13,8 +13,14 @@ export default {
     username: {
       type: String,
       required: true
+    },
+    avatar: {
+      type: String,
+      required: true
     }
   }
 }
 
 </script>
+
+<style lang="scss" scoped src="./avatar.scss"></style>

@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import * as api from '../../api'
 import StoryUserItem from '@/components/storyUserItem/storyUserItem.vue'
 import { topline } from '../../components/topline'
 import { icon } from '../../icons'
@@ -76,6 +77,9 @@ export default {
       stories
 
     }
+  },
+  created () {
+    api.trendings.getTrendings()
   }
 }
 </script>

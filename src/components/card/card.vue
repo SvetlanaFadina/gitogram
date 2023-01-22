@@ -1,11 +1,13 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="card">
         <div class="title">
+            <h1 class="card_username">{{ username }}</h1>
             <h2 class="card_title">{{ title }}</h2>
+            <h3>{{ stars }}</h3>
         </div>
         <div class="card_text">
             <p>{{ text }}</p>
+            <p>{{ description }}</p>
         </div>
         <div class="rates"></div>
     </div>
@@ -13,6 +15,8 @@
 
 <script>
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'Card',
   props: {
     title: {
       type: String,
@@ -21,7 +25,10 @@ export default {
     text: {
       type: String,
       required: true
-    }
+    },
+    username: String,
+    stars: Number,
+    description: String
   }
 }</script>
 

@@ -1,0 +1,25 @@
+.story-page_container {
+    width: 375px;
+    align-items: center;
+    margin: 0 auto;
+}
+.c-loading {
+    margin-bottom: 18px;
+}
+.story_avatar {
+    margin-bottom: 13px;
+}
+.story_button {
+    text-align: center;
+}
+.story-page_content {
+    border-top: 1px solid #CACACA;
+    border-bottom: 1px solid #CACACA;
+    margin-bottom: 24px;
+}
+.story_button:hover::before {
+    content: attr(data-hover-text);
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
