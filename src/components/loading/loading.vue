@@ -21,9 +21,9 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
+    setTimeout(() => {
       this.active = true
-    })
+    }, 500)
 
     this.$refs.indicator.addEventListener('transitionend', this.emitOnFinish)
   },

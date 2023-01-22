@@ -11,7 +11,7 @@
                                 </button>
                             </th>
                             <th class="th_likes">
-                                <div class="likes-amont">156k</div>
+                                <div class="likes-amont">{{ stars }}</div>
                             </th>
                             <th class="th_fork">
                                 <button class="btn fork_btn">
@@ -22,7 +22,7 @@
                                 </button>
                             </th>
                             <th class="th_amount">
-                                <div class="fork-amont">4</div>
+                                <div class="fork-amont">{{ fork }}</div>
                             </th>
                         </tr>
                     </table>
@@ -34,6 +34,14 @@ import { icon } from '../../icons'
 export default {
   components: {
     icon
+  },
+  props: {
+    stars: {
+      type: Number
+    },
+    fork: {
+      type: Number
+    }
   }
 }
 </script>

@@ -31,11 +31,17 @@
     </div>
     <div class="feed_mainContent">
         <ul class="feed_list">
-            <li class="feed_item">
-                <feed username="joshua_l">
-                    <avatar></avatar>
+            <li class="feed_item" v-for="item in items" :key="item.id">
+                <feed
+                :username="item.name"
+                :stars="item.stargazers_count"
+                :fork="item.forks_count">
+                    <avatar :avatar="item.avatar_url"></avatar>
                     <template #card>
-                        <card title="Vue.js" text="JavaScript framework for building interactive web applications ⚡"></card>
+                        <card
+                        :description="item.description"
+                        :username="item.owner.login"
+                        ></card>
                     </template>
                 </feed>
             </li>
@@ -74,12 +80,18 @@ export default {
   },
   data () {
     return {
-      stories
+      stories,
+      items: []
 
     }
   },
-  created () {
-    api.trendings.getTrendings()
+  async created () {
+    try {
+      const { data } = await api.trendings.getTrendings()
+      this.items = data.items
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 </script>

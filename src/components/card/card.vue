@@ -3,13 +3,11 @@
         <div class="title">
             <h1 class="card_username">{{ username }}</h1>
             <h2 class="card_title">{{ title }}</h2>
-            <h3>{{ stars }}</h3>
         </div>
         <div class="card_text">
             <p>{{ text }}</p>
             <p>{{ description }}</p>
         </div>
-        <div class="rates"></div>
     </div>
 </template>
 
@@ -27,7 +25,6 @@ export default {
       required: true
     },
     username: String,
-    stars: Number,
     description: String
   }
 }</script>
