@@ -35,8 +35,8 @@
                 <feed
                 :username="item.name"
                 :stars="item.stargazers_count"
-                :fork="item.forks_count">
-                    <avatar :avatar="item.avatar_url"></avatar>
+                :forks="item.forks_count"
+                :avatar="item.owner.avatar_url">
                     <template #card>
                         <card
                         :description="item.description"

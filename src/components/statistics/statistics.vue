@@ -22,7 +22,7 @@
                                 </button>
                             </th>
                             <th class="th_amount">
-                                <div class="fork-amont">{{ fork }}</div>
+                                <div class="fork-amont">{{ forks }}</div>
                             </th>
                         </tr>
                     </table>
@@ -39,7 +39,7 @@ export default {
     stars: {
       type: Number
     },
-    fork: {
+    forks: {
       type: Number
     }
   }

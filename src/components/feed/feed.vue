@@ -2,19 +2,17 @@
 <template>
     <div class="c-feed">
         <div class="feed_user">
-            <img class="svg feed_svg">
             <div class="feed_avatar">
-                <avatar>{{ username }}</avatar>
-                <avatar>{{ avatar }}</avatar>
+                <avatar :username="username" :avatar="avatar"></avatar>
             </div>
         </div>
         <div class="x-container feed_container">
             <slot name="card">
                 <card></card>
             </slot>
-                <div class="feed_reactions">
-                    <statistics>{{ stars }}</statistics>
-                </div>
+            <div class="feed_reactions">
+                <statistics :stars="stars" :forks="forks"></statistics>
+            </div>
         </div>
         <div class="feed_comment-block">
             <toggler @onToggle="toggle"></toggler>
@@ -38,18 +36,21 @@ import { statistics } from '../statistics'
 import { toggler } from '../../components/toggler/'
 import users from '../../pages/feeds/users.json'
 import { comment } from '../comment/'
+import { avatar } from '../avatar'
 
 export default {
   components: {
     card,
     statistics,
     toggler,
-    comment
+    comment,
+    avatar
   },
   data () {
     return {
       shown: false,
-      users
+      users,
+      items: []
     }
   },
   methods: {
@@ -69,7 +70,7 @@ export default {
     stars: {
       type: Number
     },
-    fork: {
+    forks: {
       type: Number
     }
   }
