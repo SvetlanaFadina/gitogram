@@ -45,14 +45,6 @@
                     </template>
                 </feed>
             </li>
-            <li class="feed_item">
-                <feed username="Camille">
-                        <avatar></avatar>
-                    <template #card>
-                        <card title="React.js" text="Open source JavaScript library used for designing user interfaces"></card>
-                    </template>
-                </feed>
-            </li>
         </ul>
     </div>
 </template>
@@ -65,7 +57,6 @@ import { icon } from '../../icons'
 import stories from './data.json'
 import { feed } from '../../components/feed'
 import { card } from '../../components/card'
-import { avatar } from '../../components/avatar'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -75,8 +66,7 @@ export default {
     icon,
     StoryUserItem,
     feed,
-    card,
-    avatar
+    card
   },
   data () {
     return {
