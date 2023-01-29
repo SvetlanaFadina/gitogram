@@ -1,61 +1,118 @@
-<!-- eslint-disable vue/no-unused-components -->
 <template>
-    <div class="story-page_container">
-        <div class="story-page_header">
-            <div class="c-loading">
-                <loading></loading>
-            </div>
-            <div class="story_avatar">
-                <avatar username="React.reposit" avatar="https://i.picsum.photos/id/852/200/300.jpg?hmac=6IMZOkPF_q5nf8IwfYdfxPUyKnyPL1w8moDjTeMOT5g"></avatar>
-            </div>
-        </div>
-        <div class="story-page_content">
-            <ul class="story_list">
-                <li class="story_item" v-for="item in items" :key="item.id">
-                <card
-                :title="item.name"
-                :description="item.description"
-                :username="item.owner.login"
-                :stars="item.stargazers_count">
-                </card></li>
-            </ul>
-        </div>
-        <div class="story_button">
-            <story-button hover-text="Unfollow"></story-button>
-        </div>
-</div>
+  <div class="wrapper wrapper_storyPage">
+    <header class="header">
+      <div class="x-container">
+        <button class="logo_button" @click="$router.push('/#')">
+          <icon class="logo_svg" name="gitogramWhite"></icon>
+        </button>
+        <button class="logo_button" @click="$router.push('/#')">
+          <icon class="cross_svg" name="cross"></icon>
+        </button>
+      </div>
+    </header>
+    <div class="stories_container">
+    <div class="stories">
+     <ul class="stories_list">
+      <li class="stories_item" v-for="trending, ndx in trendings" :key="trending.id" :ref="item">
+        <stories-slider
+        :data="getStoryData(trending)"
+        :active="slideNdx === ndx"
+        :loading="ndx === index && loading"
+        :btnsShown="activeBtns"
+        @onNextSlide="handleSlide(ndx + 1)"
+        @onPrevSlide="handleSlide(ndx - 1)"
+        @onProgressFinish="handleSlide(ndx + 1)"
+        :initialSlide="$route.params.initialSlide">
+      </stories-slider>
+      </li>
+     </ul>
+    </div>
+  </div>
+  </div>
 </template>
 
 <script>
-import * as api from '../../api'
-import { loading } from '../../components/loading'
-import { avatar } from '../../components/avatar'
-import { storyButton } from '../../components/storyButton'
-import { card } from '../../components/card'
+
+import { icon } from '../../icons/'
+import { storiesSlider } from '../../components/storiesSlider'
+import { mapActions, mapState } from 'vuex'
 
 export default {
+  name: 'storyPage',
   components: {
-    loading,
-    avatar,
-    storyButton,
-    card
-
+    icon,
+    storiesSlider
   },
   data () {
     return {
-      items: []
+      index: 0,
+      sliderPosition: 0,
+      btnsShown: true,
+      loading: false
     }
   },
-  async created () {
-    try {
-      const { data } = await api.trendings.getTrendings()
-      this.items = data.items
-    } catch (error) {
-      console.log(error)
+  computed: {
+    ...mapState({
+      trendings: state => state.trendings.data
+    }),
+    activeBtns () {
+      if (this.btnsShown === false) return []
+      if (this.index === 0) return ['next']
+      if (this.index === this.trendings.length - 1) return ['prev']
+      return ['next', 'prev']
     }
+  },
+  methods: {
+    ...mapActions({
+      fetchTrendins: 'fetchTrendings',
+      fetchReadMe: 'fetchReadMe'
+    }),
+    getStoryData (obj) {
+      return {
+        id: obj.id,
+        avatar: obj.owner?.avatar_url,
+        username: obj.owner?.login,
+        content: obj.readme
+      }
+    }
+  },
+  async fetchReadmeForActiveSlide () {
+    const { id, owner, name } = this.trendings[this.index]
+    await this.fetchReadme({ id, owner: owner.login, repo: name })
+  },
+  moveSlide (slideNum) {
+    const { slider, item } = this.$refs
+    const slideWidth = parseInt(getComputedStyle(item).getPropertyValue('width'), 10)
+    this.index = slideNum
+    this.sliderPosition = -(slideWidth * slideNum)
+    slider.style.transform = `translateX(${this.sliderPosition}px)`
+  },
+  async loadReadme () {
+    this.btnsShown = false
+    this.loading = true
+    try {
+      await this.fetchReadmeForActiveSlide()
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.btnsShown = true
+      this.loading = false
+    }
+  },
+  async handleSlide (slideNum) {
+    this.moveSlide(slideNum)
+    await this.loadReadme()
+  },
+  async created () {
+    if (this.initialSlideId) {
+      const ndx = this.trendings.findIndex((item) => item.id === this.initialSlideId)
+      await this.handleSlide(ndx)
+    }
+
+    await this.fetchTrendins()
+    await this.loadReadme()
   }
 }
-
 </script>
 
-<style lang="scss" scoped src="./storyPage.scss"></style>
+<style lang="scss" src="./storyPage.scss" scoped></style>

@@ -19,10 +19,11 @@
             </template>
             <template #content>
                 <ul class="stories">
-                    <li class="stories-item" v-for="story in stories" :key="story.id">
+                    <li class="stories-item" v-for="item in items" :key="item.id">
                         <story-user-item
-                            :avatar="story.avatar"
-                            :username="story.username">
+                            :avatar="item.owner.avatar_url"
+                            :username="item.owner.login"
+                            @storyPress="Number($router.push({name: 'stories', params: {initialSlide: id}}))">
                         </story-user-item>
                     </li>
                 </ul>
@@ -54,7 +55,6 @@ import * as api from '../../api'
 import StoryUserItem from '@/components/storyUserItem/storyUserItem.vue'
 import { topline } from '../../components/topline'
 import { icon } from '../../icons'
-import stories from './data.json'
 import { feed } from '../../components/feed'
 import { card } from '../../components/card'
 
@@ -70,7 +70,6 @@ export default {
   },
   data () {
     return {
-      stories,
       items: []
 
     }

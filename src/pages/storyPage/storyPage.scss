@@ -1,3 +1,10 @@
+.x-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 1100px;
+    padding-top: 48px;
+}
 .story-page_container {
     width: 375px;
     align-items: center;
@@ -5,6 +12,9 @@
 }
 .c-loading {
     margin-bottom: 18px;
+}
+.story_item {
+    position: relative;
 }
 .story_avatar {
     margin-bottom: 13px;
@@ -22,4 +32,36 @@
     color: #FFFFFF;
     font-weight: 700;
 }
+.logo_svg {
+    width: 174px;
+    height: 36px;
+}
+.cross_svg {
+    width: 22px;
+    height: 22px;
+}
+.header {
+    margin-bottom: 200px;
+}
+.wrapper_storyPage {
+    background: black;
+}
+.stories_list {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    margin-left: -188px;
+    transition: 0.4s;
+}
+.stories_item {
+    margin-right: 50px;
 
+    &:last-child {
+        margin-right: 0;
+    }
+}
+.stories_container {
+    height: 660px;
+    position: relative;
+}
