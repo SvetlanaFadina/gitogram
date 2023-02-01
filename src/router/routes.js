@@ -3,10 +3,12 @@ import { storyPage } from '../pages/storyPage'
 
 export default [{
   path: '/',
-  component: feeds
+  component: feeds,
+  name: 'feeds'
 },
 {
   path: '/storyPage',
-  component: storyPage
+  component: storyPage,
+  name: 'stories'
 }
 ]

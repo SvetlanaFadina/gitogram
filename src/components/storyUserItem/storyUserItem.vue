@@ -1,5 +1,5 @@
 <template>
-    <button class="c-story-user-item" @click="$emit('onPress')">
+    <button class="c-story-user-item" @click="$emit('storyPress')">
         <div class="avatar">
             <img :src="avatar" class="img" alt="username avatar">
         </div>
@@ -18,7 +18,8 @@ export default {
       type: String,
       required: true
     }
-  }
+  },
+  emits: ['storyPress']
 }
 </script>
 

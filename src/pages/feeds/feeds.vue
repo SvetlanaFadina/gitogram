@@ -1,6 +1,6 @@
 <template>
     <div class="topline">
-        <topline>
+        <topline class="c-topline">
             <template #headline>
                 <div class="logo">
                     <icon class="logo_svg" name="gitogram"></icon>
@@ -23,7 +23,7 @@
                         <story-user-item
                             :avatar="item.owner.avatar_url"
                             :username="item.owner.login"
-                            @storyPress="Number($router.push({name: 'stories', params: {initialSlide: id}}))">
+                            @storyPress="$router.push({ name: 'stories', params: { initialSlideId: id }})">
                         </story-user-item>
                     </li>
                 </ul>

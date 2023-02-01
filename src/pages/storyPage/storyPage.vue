@@ -1,28 +1,27 @@
 <template>
   <div class="wrapper wrapper_storyPage">
-    <header class="header">
-      <div class="x-container">
+    <topline class="c-topline_black">
+      <template #headline>
         <button class="logo_button" @click="$router.push('/#')">
           <icon class="logo_svg" name="gitogramWhite"></icon>
         </button>
         <button class="logo_button" @click="$router.push('/#')">
           <icon class="cross_svg" name="cross"></icon>
         </button>
-      </div>
-    </header>
+      </template>
+    </topline>
     <div class="stories_container">
     <div class="stories">
-     <ul class="stories_list">
-      <li class="stories_item" v-for="trending, ndx in trendings" :key="trending.id" :ref="item">
+     <ul class="stories_list" ref="slider">
+      <li class="stories_item" v-for="trending, ndx in trendings" :key="trending.id" ref="item">
         <stories-slider
         :data="getStoryData(trending)"
-        :active="slideNdx === ndx"
+        :active="ndx === index"
         :loading="ndx === index && loading"
         :btnsShown="activeBtns"
         @onNextSlide="handleSlide(ndx + 1)"
         @onPrevSlide="handleSlide(ndx - 1)"
-        @onProgressFinish="handleSlide(ndx + 1)"
-        :initialSlide="$route.params.initialSlide">
+        :initialSlide="Number($route.params.initialSlide)">
       </stories-slider>
       </li>
      </ul>
@@ -36,12 +35,14 @@
 import { icon } from '../../icons/'
 import { storiesSlider } from '../../components/storiesSlider'
 import { mapActions, mapState } from 'vuex'
+import { topline } from '../../components/topline/'
 
 export default {
   name: 'storyPage',
   components: {
     icon,
-    storiesSlider
+    storiesSlider,
+    topline
   },
   data () {
     return {
@@ -74,36 +75,36 @@ export default {
         username: obj.owner?.login,
         content: obj.readme
       }
+    },
+    async fetchReadmeForActiveSlide () {
+      const { id, owner, name } = this.trendings[this.index]
+      await this.fetchReadMe({ id, owner: owner.login, repo: name })
+    },
+    moveSlide (slideNum) {
+      const { item, slider } = this.$refs
+      const slideWidth = parseInt(getComputedStyle(item[0]).getPropertyValue('width'), 10)
+      this.index = slideNum
+      this.sliderPosition = -(slideWidth * slideNum)
+      slider.style.transform = `translateX(${this.sliderPosition}px)`
+    },
+    async loadReadme () {
+      this.btnsShown = false
+      this.loading = true
+      try {
+        await this.fetchReadmeForActiveSlide()
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.btnsShown = true
+        this.loading = false
+      }
+    },
+    async handleSlide (slideNum) {
+      this.moveSlide(slideNum)
+      await this.loadReadme()
     }
   },
-  async fetchReadmeForActiveSlide () {
-    const { id, owner, name } = this.trendings[this.index]
-    await this.fetchReadme({ id, owner: owner.login, repo: name })
-  },
-  moveSlide (slideNum) {
-    const { slider, item } = this.$refs
-    const slideWidth = parseInt(getComputedStyle(item).getPropertyValue('width'), 10)
-    this.index = slideNum
-    this.sliderPosition = -(slideWidth * slideNum)
-    slider.style.transform = `translateX(${this.sliderPosition}px)`
-  },
-  async loadReadme () {
-    this.btnsShown = false
-    this.loading = true
-    try {
-      await this.fetchReadmeForActiveSlide()
-    } catch (e) {
-      console.log(e)
-    } finally {
-      this.btnsShown = true
-      this.loading = false
-    }
-  },
-  async handleSlide (slideNum) {
-    this.moveSlide(slideNum)
-    await this.loadReadme()
-  },
-  async created () {
+  async mounted () {
     if (this.initialSlideId) {
       const ndx = this.trendings.findIndex((item) => item.id === this.initialSlideId)
       await this.handleSlide(ndx)

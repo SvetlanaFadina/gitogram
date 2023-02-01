@@ -1,5 +1,5 @@
 <template>
-    <div class="story_item" :class="{ active }">
+    <div :class="['story_item', {active: active}]">
         <div class="container">
         <div class="header">
             <div class="loading_line">
@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="content">
-            <div class="spinner" v-if="loading">
+            <div class="loader" v-if="loading">
                     <spinner></spinner>
                 </div>
                 <div class="info" v-else>
@@ -26,6 +26,7 @@
         <story-button class="slider_btn" hover-text="Unfollow"></story-button>
         </div>
     </div>
+    <template v-if="active">
     <div class="arrow_btns">
         <button v-if="btnsShown.includes('prev')" class="btn btn_prev" @click="$emit('onPrevSlide')">
             <span class="icon">
@@ -38,6 +39,7 @@
             </span>
             </button>
         </div>
+    </template>
     </div>
 </template>
 
@@ -84,11 +86,13 @@ export default {
       type: Array,
       default: () => ['next', 'prev'],
       validator (value) {
-        return value.every(item => item === 'next' || item === 'prev')
+        return value.every((item) => item === 'next' || item === 'prev')
       }
     },
-    initialSlide: {
-      type: Number
+    props: {
+      initialSlide: {
+        type: Number
+      }
     }
   },
   emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish']

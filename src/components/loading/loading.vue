@@ -10,8 +10,12 @@ export default {
 // eslint-disable-next-line vue/multi-word-component-names
   name: 'loading',
   data () {
-    return {
-      active: false
+
+  },
+  props: {
+    active: {
+      type: Boolean,
+      required: true
     }
   },
   emits: ['onFinish'],
@@ -21,9 +25,10 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.active = true
-    }, 500)
+    if (this.active === true) {
+      setTimeout(() => {
+      }, 500)
+    }
 
     this.$refs.indicator.addEventListener('transitionend', this.emitOnFinish)
   },
