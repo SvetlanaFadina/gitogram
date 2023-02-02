@@ -46,16 +46,3 @@
 .wrapper_storyPage {
     background: black;
 }
-.stories_list {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    left: 50%;
-    margin-left: -150px;
-    transform: translateX(0);
-    transition: transform .4s;
-}
-.stories_container {
-    height: 660px;
-    position: relative;
-}

@@ -1,104 +1,106 @@
 <template>
-    <div :class="['story_item', {active: active}]">
-        <div class="container">
-        <div class="header">
-            <div class="loading_line">
-                <loading :active="active" @onFinish="$emit('onProgressFinish')"></loading>
-            </div>
-            <div class="avatar">
-                <avatar
-                    :username="data.username"
-                    :avatar="data.avatar">
-                </avatar>
-            </div>
-        </div>
-        <div class="content">
-            <div class="loader" v-if="loading">
-                    <spinner></spinner>
-                </div>
-                <div class="info" v-else>
-                    <div v-if="data.content?.length" class="content_text" v-html="data.content"></div>
-                        <placeholder v-else></placeholder>
-                </div>
-        </div>
-        <div class="border"></div>
-        <div class="slider_button">
-        <story-button class="slider_btn" hover-text="Unfollow"></story-button>
-        </div>
+    <div class="stories_container">
+    <div class="stories">
+    <ul class="stories_list" ref="slider">
+      <li class="stories_item" v-for="trending, ndx in trendings" :key="trending.id" ref="item">
+        <stories-slide
+        :data="getStoryData(trending)"
+        :active="ndx === index"
+        :loading="ndx === index && loading"
+        :btnsShown="activeBtns"
+        @onNextSlide="handleSlide(ndx + 1)"
+        @onPrevSlide="handleSlide(ndx - 1)">
+      </stories-slide>
+      </li>
+     </ul>
     </div>
-    <template v-if="active">
-    <div class="arrow_btns">
-        <button v-if="btnsShown.includes('prev')" class="btn btn_prev" @click="$emit('onPrevSlide')">
-            <span class="icon">
-                <icon class="btn_icon" name="prevBtn"></icon>
-            </span>
-            </button>
-            <button v-if="btnsShown.includes('next')" class="btn btn_next" @click="$emit('onNextSlide')">
-            <span class="icon">
-                <icon class="btn_icon" name="nextBtn"></icon>
-            </span>
-            </button>
-        </div>
-    </template>
     </div>
 </template>
 
 <script>
-import { loading } from '../../components/loading'
-import { avatar } from '../../components/avatar'
-import { storyButton } from '../../components/storyButton'
-import { spinner } from '../../components/spinner'
-import { placeholder } from '../../components/placeholder'
-import { icon } from '../../icons'
+import { storiesSlide } from '../../components/storiesSlide'
+import { mapActions, mapState } from 'vuex'
 
 export default {
+  name: 'storiesSlider',
   components: {
-    loading,
-    avatar,
-    storyButton,
-    spinner,
-    placeholder,
-    icon
+    storiesSlide
   },
-  props: {
-    username: {
-      type: String,
-      required: true
-    },
-    avatar: {
-      type: String,
-      required: true
-    },
-    hoverText: {
-      type: String
-    },
-    active: Boolean,
-    loading: Boolean,
-    content: {
-      type: String
-    },
-    data: {
-      type: Object,
-      required: true,
-      default: () => ({})
-    },
-    btnsShown: {
-      type: Array,
-      default: () => ['next', 'prev'],
-      validator (value) {
-        return value.every((item) => item === 'next' || item === 'prev')
-      }
-    },
-    props: {
-      initialSlide: {
-        type: Number
-      }
+  data () {
+    return {
+      index: 0,
+      sliderPosition: 0,
+      btnsShown: true,
+      loading: false
     }
   },
-  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish']
+  props: {
+    initialSlideId: {
+      type: String
+    }
+  },
+  computed: {
+    ...mapState({
+      trendings: state => state.trendings.data
+    }),
+    activeBtns () {
+      if (this.btnsShown === false) return []
+      if (this.index === 0) return ['next']
+      if (this.index === this.trendings.length - 1) return ['prev']
+      return ['next', 'prev']
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchTrendins: 'fetchTrendings',
+      fetchReadMe: 'fetchReadMe'
+    }),
+    getStoryData (obj) {
+      return {
+        id: obj.id,
+        avatar: obj.owner?.avatar_url,
+        username: obj.owner?.login,
+        content: obj.readme
+      }
+    },
+    async fetchReadmeForActiveSlide () {
+      const { id, owner, name } = this.trendings[this.index]
+      await this.fetchReadMe({ id, owner: owner.login, repo: name })
+    },
+    moveSlide (slideNum) {
+      const { item, slider } = this.$refs
+      const slideWidth = parseInt(getComputedStyle(item[0]).getPropertyValue('width'), 10)
+      this.index = slideNum
+      this.sliderPosition = -(slideWidth * slideNum)
+      slider.style.transform = `translateX(${this.sliderPosition}px)`
+    },
+    async loadReadme () {
+      this.btnsShown = false
+      this.loading = true
+      try {
+        await this.fetchReadmeForActiveSlide()
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.btnsShown = true
+        this.loading = false
+      }
+    },
+    async handleSlide (slideNum) {
+      this.moveSlide(slideNum)
+      await this.loadReadme()
+    }
+  },
+  async mounted () {
+    if (this.initialSlideId) {
+      const ndx = this.trendings.findIndex((item) => item.id === this.initialSlideId)
+      await this.handleSlide(ndx)
+    }
 
+    await this.fetchTrendins()
+    await this.loadReadme()
+  }
 }
-
 </script>
 
 <style lang="scss" scoped src="./storiesSlider.scss"></style>
