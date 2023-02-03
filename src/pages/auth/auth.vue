@@ -37,6 +37,10 @@ export default {
           console.log(response)
           const { token } = response.json()
           console.log(token)
+          localStorage.setItem('token', token)
+          this.$router.replace({ name: 'feeds' })
+
+          console.log(token)
         } catch (e) {
           console.log(e)
         }
