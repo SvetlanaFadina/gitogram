@@ -57,6 +57,7 @@ import { topline } from '../../components/topline'
 import { icon } from '../../icons'
 import { feed } from '../../components/feed'
 import { card } from '../../components/card'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -71,11 +72,28 @@ export default {
   data () {
     return {
       items: []
-
     }
+  },
+  props: {
+    initialSlideId: {
+      type: Number,
+      required: true
+    }
+  },
+  computed: {
+    ...mapState({
+      trendings: state => state.trendings.data
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchTrendins: 'fetchTrendings',
+      fetchReadMe: 'fetchReadMe'
+    })
   },
   async created () {
     try {
+      await this.fetchTrendins()
       const { data } = await api.trendings.getTrendings()
       this.items = data.items
     } catch (error) {
@@ -85,5 +103,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped src="./feeds.scss">
-</style>
+<style lang="scss" scoped src="./feeds.scss"></style>

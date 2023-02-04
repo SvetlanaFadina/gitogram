@@ -1,26 +1,25 @@
 <template>
-    <div class="stories_container">
-    <div class="stories">
-    <ul class="stories_list" ref="slider">
-      <li class="stories_item" v-for="trending, ndx in trendings" :key="trending.id" ref="item">
-        <stories-slide
-        :data="getStoryData(trending)"
-        :active="ndx === index"
-        :loading="ndx === index && loading"
-        :btnsShown="activeBtns"
-        @onNextSlide="handleSlide(ndx + 1)"
-        @onPrevSlide="handleSlide(ndx - 1)">
-      </stories-slide>
-      </li>
-     </ul>
-    </div>
-    </div>
+  <div class="stories_container">
+  <div class="stories">
+  <ul class="stories_list" ref="slider">
+    <li class="stories_item" v-for="trending, ndx in trendings" :key="trending.id" ref="item">
+      <stories-slide
+      :data="getStoryData(trending)"
+      :active="ndx === index"
+      :loading="ndx === index && loading"
+      :btnsShown="activeBtns"
+      @onNextSlide="handleSlide(ndx + 1)"
+      @onPrevSlide="handleSlide(ndx - 1)">
+    </stories-slide>
+    </li>
+   </ul>
+  </div>
+  </div>
 </template>
 
 <script>
 import { storiesSlide } from '../../components/storiesSlide'
 import { mapActions, mapState } from 'vuex'
-
 export default {
   name: 'storiesSlider',
   components: {
@@ -36,7 +35,8 @@ export default {
   },
   props: {
     initialSlideId: {
-      type: String
+      type: Number,
+      required: true
     }
   },
   computed: {
@@ -96,8 +96,6 @@ export default {
       const ndx = this.trendings.findIndex((item) => item.id === this.initialSlideId)
       await this.handleSlide(ndx)
     }
-
-    await this.fetchTrendins()
     await this.loadReadme()
   }
 }

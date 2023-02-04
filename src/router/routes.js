@@ -9,7 +9,7 @@ export default [{
   name: 'feeds'
 },
 {
-  path: '/storyPage',
+  path: '/storyPage/:initialSlideId',
   component: storyPage,
   name: 'stories'
 },
