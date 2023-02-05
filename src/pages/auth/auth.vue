@@ -1,53 +1,93 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <button @click="getCode">Enter</button>
+  <div class="auth">
+    <div class="auth_logo">
+      <icon class="auth_logo-svg" name="gitogram"></icon>
+    </div>
+    <div class="auth_text">
+      <p>More than just one repository. <br>This is our digital world.</p>
+    </div>
+    <div class="auth_btn">
+      <storyButton class="btn_green auth_btn-green" @click="getCode">
+        <span class="btn_text">
+          <p class="auth_btn-text">Authorize with github</p>
+          <icon name="ghIcon"></icon>
+        </span>
+      </storyButton>
+    </div>
+    <div class="pic">
+      <icon class="auth_pic-svg" name="screen"></icon>
+    </div>
+    <div class="footer">
+      <p>© Gitogram from Loftschool</p>
+    </div>
+  </div>
  </template>
 
 <script>
-import axios from 'axios'
-
-const clientId = '595eb40ae8f0978515a8'
-const clientSecret = '5481c4b1e52b6f4a525950ddd88b26edece636cd'
+import { icon } from '../../icons'
+import { storyButton } from '../../components/storyButton'
+import env from '../../../env.js'
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'auth',
+  components: {
+    icon,
+    storyButton
+  },
   methods: {
     getCode () {
       const githubAuthApi = 'https://github.com/login/oauth/authorize'
       const params = new URLSearchParams()
 
-      params.append('client_id', clientId)
+      params.append('client_id', env.clientId)
       params.append('scope', 'repo:status read:user')
 
       window.location.href = `${githubAuthApi}?${params}`
-      const code = new URLSearchParams(window.location.search).get('code')
-      if (code) {
-        try {
-          const url = 'https://webdev-api.loftschool.com/github'
-          const options = {
-            method: 'POST',
-            url: url,
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            data: {
-              clientId, code, clientSecret
-            }
-          }
-          const response = axios(options)
-          console.log(response)
-          const { token } = response.json()
-          console.log(token)
-          localStorage.setItem('token', token)
-          this.$router.replace({ name: 'feeds' })
+    }
+  },
+  async created () {
+    const code = new URLSearchParams(window.location.search).get('code')
 
-          console.log(token)
-        } catch (e) {
-          console.log(e)
-        }
+    if (code) {
+      try {
+        const response = await fetch('https://webdev-api.loftschool.com/github', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            clientId: env.clientId, code, clientSecret: env.clientSecret
+          })
+        })
+
+        const { token } = await response.json()
+
+        localStorage.setItem('token', token)
+        this.$router.replace({ name: 'feeds' })
+
+        console.log(token)
+      } catch (e) {
       }
     }
-
+  },
+  async getUser () {
+    try {
+      const response = await fetch('https://api.github.com/user', {
+        headers: {
+          Authorization: `token ${localStorage.getItem('token')}`
+        }
+      })
+      const data = await response.json()
+      this.$router.replace({ name: 'feeds' })
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
 </script>
+
+<style lang="scss" scoped src="./auth.scss"></style>

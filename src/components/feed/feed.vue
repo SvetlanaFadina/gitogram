@@ -16,12 +16,15 @@
       </div>
       <div class="feed_comment-block">
           <toggler @onToggle="toggle"></toggler>
-          <div class="feed_comments" v-if="shown">
+          <div class="loader" v-if="loading">
+            <iLoader></iLoader>
+          </div>
+          <div class="feed_comments" v-if="issues?.length && shown">
               <ul class="feed_comment-list">
-                  <li class="feed_comment-item" v-for="user in users" :key="user.id">
+                  <li class="feed_comment-item" v-for="issue in issues" :key="issue.id">
                       <comment
-                              :username="user.username"
-                              :text="user.text">
+                              :username="issue.user.login"
+                              :text="issue.title">
                       </comment>
                   </li>
               </ul>
@@ -37,27 +40,52 @@ import { toggler } from '../../components/toggler/'
 import users from '../../pages/feeds/users.json'
 import { comment } from '../comment/'
 import { avatar } from '../avatar'
+import { iLoader } from '../../components/iLoader'
+import { mapActions, mapState } from 'vuex'
+import { getIssues } from '@/api/rest/issues'
+
 export default {
   components: {
     card,
     statistics,
     toggler,
     comment,
-    avatar
+    avatar,
+    iLoader
   },
   data () {
     return {
       shown: false,
       users,
-      items: []
+      items: [],
+      id: []
     }
+  },
+  computed: {
+    ...mapState({
+      trendings: state => state.trendings.data
+    })
   },
   methods: {
     toggle (isOpened) {
       this.shown = isOpened
+
+      if (isOpened && this.issues.length === 0) {
+        this.$emit('loadContent')
+      }
+    },
+    ...mapActions({
+      fetchIssues: 'fetchIssues'
+    }),
+    loadIssues ({ id, owner, repo }) {
+      const { issues } = this.fetchIssues({ id, owner, repo })
+      console.log(issues)
     }
   },
   props: {
+    loading: {
+      type: Boolean
+    },
     username: {
       type: String,
       required: true
@@ -71,6 +99,21 @@ export default {
     },
     forks: {
       type: Number
+    },
+    issues: {
+      type: Array,
+      default: () => []
+    }
+  },
+  emits: ['loadContent'],
+  async created () {
+    try {
+      await this.fetchIssues()
+      const { data } = await getIssues()
+      console.log(data)
+      this.items = data.items
+    } catch (error) {
+      console.log(error)
     }
   }
 }

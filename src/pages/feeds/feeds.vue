@@ -9,20 +9,20 @@
                     <a href="#" class="icon_ref">
                         <icon class="svg" name="home"></icon>
                     </a>
-                    <a href="#" class="icon_ref">
-                        <icon class="svg" name="photo"></icon>
-                    </a>
-                    <a href="#" class="icon_ref">
+                    <button class="icon_ref">
+                        <user :avatar="user.avatar_url"  class="feed_userInfo-icon-user" ></user>
+                    </button>
+                    <button class="icon_ref" @click="logout">
                         <icon class="svg" name="exit"></icon>
-                    </a>
+                    </button>
                 </div>
             </template>
             <template #content>
                 <ul class="stories">
-                    <li class="stories-item" v-for="item in items" :key="item.id">
+                    <li class="stories-item" v-for="star in stars" :key="star.id">
                         <story-user-item
-                            :avatar="item.owner.avatar_url"
-                            :username="item.owner.login"
+                            :avatar="star.owner.avatar_url"
+                            :username="star.owner.login"
                             @storyPress="$router.push({ name: 'stories', params: { initialSlideId : item.id } })">
                         </story-user-item>
                     </li>
@@ -32,16 +32,18 @@
     </div>
     <div class="feed_mainContent">
         <ul class="feed_list">
-            <li class="feed_item" v-for="item in items" :key="item.id">
+            <li class="feed_item" v-for="star in stars" :key="star.id">
                 <feed
-                :username="item.name"
-                :stars="item.stargazers_count"
-                :forks="item.forks_count"
-                :avatar="item.owner.avatar_url">
+                :username="star.owner.login"
+                :stars="star.stargazers_count"
+                :forks="star.forks_count"
+                :avatar ="star.owner.avatar_url"
+                :loading="issues?.loading"
+                @loadContent="loadIssues({ id, owner: owner.login, repo: name })">
                     <template #card>
                         <card
-                        :description="item.description"
-                        :username="item.owner.login"
+                        :description="star.description"
+                        :username="star.owner.login"
                         ></card>
                     </template>
                 </feed>
@@ -58,6 +60,7 @@ import { icon } from '../../icons'
 import { feed } from '../../components/feed'
 import { card } from '../../components/card'
 import { mapActions, mapState } from 'vuex'
+import { user } from '../../components/user/'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -67,17 +70,32 @@ export default {
     icon,
     StoryUserItem,
     feed,
-    card
+    card,
+    user
   },
   data () {
     return {
-      items: []
+      items: [],
+      user: [],
+      stars: []
     }
   },
   props: {
+    username: {
+      type: String,
+      required: true
+    },
+    avatar: {
+      type: String,
+      required: true
+    },
     initialSlideId: {
       type: Number,
       required: true
+    },
+    issues: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -88,14 +106,29 @@ export default {
   methods: {
     ...mapActions({
       fetchTrendins: 'fetchTrendings',
-      fetchReadMe: 'fetchReadMe'
-    })
+      fetchReadMe: 'fetchReadMe',
+      getUser: 'getUser',
+      fetchIssues: 'fetchIssues',
+      logout: 'logout',
+      fetchStarred: 'fetchStarred'
+    }),
+    loadIssues ({ id, owner, repo }) {
+      const { issues } = this.fetchIssues({ id, owner, repo })
+      console.log(issues)
+    }
   },
   async created () {
     try {
       await this.fetchTrendins()
       const { data } = await api.trendings.getTrendings()
       this.items = data.items
+      const user = await api.user.getUser()
+      this.user = user.data
+      const stars = await api.starred.getStarredRepos()
+      this.stars = stars.data
+      console.log(stars)
+      this.items = data.items
+      await this.fetchIssues()
     } catch (error) {
       console.log(error)
     }

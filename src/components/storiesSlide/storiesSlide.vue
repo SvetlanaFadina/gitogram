@@ -23,7 +23,7 @@
         </div>
         <div class="border"></div>
         <div class="slider_button">
-        <story-button class="slider_btn" hover-text="Unfollow"></story-button>
+        <story-button @click="$emit('onFollow', data.id)" class="slider_btn" hover-text="Unfollow"></story-button>
         </div>
     </div>
     <template v-if="active">
@@ -90,7 +90,7 @@ export default {
       }
     }
   },
-  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish']
+  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'onFollow']
 
 }
 
