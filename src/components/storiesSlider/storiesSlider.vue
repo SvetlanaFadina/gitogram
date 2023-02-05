@@ -53,7 +53,8 @@ export default {
   methods: {
     ...mapActions({
       fetchTrendins: 'fetchTrendings',
-      fetchReadMe: 'fetchReadMe'
+      fetchReadMe: 'fetchReadMe',
+      fetchStarred: 'fetchStarred'
     }),
     getStoryData (obj) {
       return {

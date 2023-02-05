@@ -23,7 +23,7 @@
                         <story-user-item
                             :avatar="star.owner.avatar_url"
                             :username="star.owner.login"
-                            @storyPress="$router.push({ name: 'stories', params: { initialSlideId : item.id } })">
+                            @storyPress="$router.push({ name: 'stories', params: { initialSlideId : star.id } })">
                         </story-user-item>
                     </li>
                 </ul>
