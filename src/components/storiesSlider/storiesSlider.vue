@@ -10,7 +10,7 @@
       :btnsShown="activeBtns"
       @onNextSlide="handleSlide(ndx + 1)"
       @onPrevSlide="handleSlide(ndx - 1)"
-      @onFollow="starRepo">
+      @onFollow="starRepo.id">
     </stories-slide>
     </li>
    </ul>

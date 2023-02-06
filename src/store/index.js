@@ -30,7 +30,7 @@ export default createStore({
       })
     },
     SET_ISSUES: (state, { id, issues }) => {
-      state.data = state.trendings.data.map((repo) => {
+      state.trendings.data = state.trendings.data.map((repo) => {
         const editedRepo = repo
         if (repo.id === id) {
           editedRepo.issues = issues
@@ -53,7 +53,7 @@ export default createStore({
       state.trendings.data = payload
     },
     SET_FOLLOWING: (state, payload) => {
-      state.data = state.data.map((repo) => {
+      state.trendings.data = state.trendings.data.map((repo) => {
         if (payload.id === repo.id) {
           repo.following = {
             ...repo.following,

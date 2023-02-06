@@ -77,7 +77,8 @@ export default {
     return {
       items: [],
       user: [],
-      stars: []
+      stars: [],
+      issue: []
     }
   },
   props: {
@@ -111,7 +112,10 @@ export default {
       fetchIssues: 'fetchIssues',
       logout: 'logout',
       fetchStarred: 'fetchStarred'
-    })
+    }),
+    loadIssues ({ id, owner, repo }) {
+      api.issues.getIssues({ id, owner, repo })
+    }
   },
   async created () {
     try {
@@ -120,14 +124,9 @@ export default {
       this.items = data.items
       const user = await api.user.getUser()
       this.user = user.data
-      // await this.fetchIssues()
       const stars = await api.starred.getStarredRepos()
       this.stars = stars.data
-      const { issues } = api.issues.getIssues()
-      console.log(issues)
-
       console.log(stars)
-      this.items = data.items
     } catch (error) {
       console.log(error)
     }

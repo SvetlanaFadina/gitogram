@@ -42,7 +42,7 @@ import { comment } from '../comment/'
 import { avatar } from '../avatar'
 import { iLoader } from '../../components/iLoader'
 import { mapActions, mapState } from 'vuex'
-import { getIssues } from '@/api/rest/issues'
+// import { getIssues } from '@/api/rest/issues'
 
 export default {
   components: {
@@ -76,11 +76,7 @@ export default {
     },
     ...mapActions({
       fetchIssues: 'fetchIssues'
-    }),
-    loadIssues ({ id, owner, repo }) {
-      const { issues } = this.fetchIssues({ id, owner, repo })
-      console.log(issues)
-    }
+    })
   },
   props: {
     loading: {
@@ -105,17 +101,7 @@ export default {
       default: () => []
     }
   },
-  emits: ['loadContent'],
-  async created () {
-    try {
-      await this.fetchIssues()
-      const { data } = await getIssues()
-      console.log(data)
-      this.items = data.items
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  emits: ['loadContent']
 }
 </script>
 
