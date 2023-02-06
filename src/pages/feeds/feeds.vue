@@ -19,11 +19,11 @@
             </template>
             <template #content>
                 <ul class="stories">
-                    <li class="stories-item" v-for="star in stars" :key="star.id">
+                    <li class="stories-item" v-for="item in items" :key="item.id">
                         <story-user-item
-                            :avatar="star.owner.avatar_url"
-                            :username="star.owner.login"
-                            @storyPress="$router.push({ name: 'stories', params: { initialSlideId : star.id } })">
+                            :avatar="item.owner.avatar_url"
+                            :username="item.owner.login"
+                            @storyPress="$router.push({ name: 'stories', params: { initialSlideId : item.id } })">
                         </story-user-item>
                     </li>
                 </ul>
@@ -33,7 +33,7 @@
     <div class="feed_mainContent">
         <ul class="feed_list">
             <li class="feed_item" v-for="star in stars" :key="star.id">
-                <feed
+                <feed class="feed_userInfo-icon"
                 :username="star.owner.login"
                 :stars="star.stargazers_count"
                 :forks="star.forks_count"
@@ -111,11 +111,7 @@ export default {
       fetchIssues: 'fetchIssues',
       logout: 'logout',
       fetchStarred: 'fetchStarred'
-    }),
-    loadIssues ({ id, owner, repo }) {
-      const { issues } = this.fetchIssues({ id, owner, repo })
-      console.log(issues)
-    }
+    })
   },
   async created () {
     try {
@@ -124,11 +120,14 @@ export default {
       this.items = data.items
       const user = await api.user.getUser()
       this.user = user.data
+      // await this.fetchIssues()
       const stars = await api.starred.getStarredRepos()
       this.stars = stars.data
+      const { issues } = api.issues.getIssues()
+      console.log(issues)
+
       console.log(stars)
       this.items = data.items
-      await this.fetchIssues()
     } catch (error) {
       console.log(error)
     }

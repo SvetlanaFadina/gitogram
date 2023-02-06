@@ -102,8 +102,20 @@ export default createStore({
       }
     },
     async starRepo ({ commit, getters }, id) {
-      const { data } = await starRepo()
-      console.log(data)
+      const { name: repo, owner } = getters.getRepoById(id)
+      try {
+        await starRepo({ owner: owner.login, repo })
+        commit('SET_FOLLOWING', {
+          id,
+          data: {
+            status: false,
+            loading: true
+          }
+        })
+      } catch (e) {
+        console.log(e)
+        throw e
+      }
     },
     async fetchIssues ({ commit }, { id, owner, repo }) {
       commit('SET_ISSUES', {

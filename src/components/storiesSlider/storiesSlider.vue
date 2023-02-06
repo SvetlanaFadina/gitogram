@@ -9,7 +9,8 @@
       :loading="ndx === index && loading"
       :btnsShown="activeBtns"
       @onNextSlide="handleSlide(ndx + 1)"
-      @onPrevSlide="handleSlide(ndx - 1)">
+      @onPrevSlide="handleSlide(ndx - 1)"
+      @onFollow="starRepo">
     </stories-slide>
     </li>
    </ul>
@@ -54,14 +55,16 @@ export default {
     ...mapActions({
       fetchTrendins: 'fetchTrendings',
       fetchReadMe: 'fetchReadMe',
-      fetchStarred: 'fetchStarred'
+      fetchStarred: 'fetchStarred',
+      starRepo: 'starRepo'
     }),
     getStoryData (obj) {
       return {
         id: obj.id,
         avatar: obj.owner?.avatar_url,
         username: obj.owner?.login,
-        content: obj.readme
+        content: obj.readme,
+        following: obj.following
       }
     },
     async fetchReadmeForActiveSlide () {

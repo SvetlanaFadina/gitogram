@@ -23,7 +23,7 @@
         </div>
         <div class="border"></div>
         <div class="slider_button">
-        <story-button @click="$emit('onFollow', data.id)" class="slider_btn" hover-text="Unfollow"></story-button>
+        <story-button :loading="data.following.loading" @click="$emit('onFollow', data.id)" class="slider_btn" hover-text="Unfollow"></story-button>
         </div>
     </div>
     <template v-if="active">
