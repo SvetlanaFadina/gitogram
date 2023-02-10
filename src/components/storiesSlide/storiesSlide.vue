@@ -23,7 +23,7 @@
         </div>
         <div class="border"></div>
         <div class="slider_button">
-        <story-button :loading="data.following.loading" @click="$emit('onFollow', data.id)" class="slider_btn" hover-text="Unfollow"></story-button>
+        <story-button @click="$emit('onFollow', data.id)" class="slider_btn" hover-text="Unfollow"></story-button>
         </div>
     </div>
     <template v-if="active">
@@ -50,6 +50,7 @@ import { storyButton } from '../../components/storyButton'
 import { spinner } from '../../components/spinner'
 import { placeholder } from '../../components/placeholder'
 import { icon } from '../../icons'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   components: {
@@ -73,7 +74,9 @@ export default {
       type: String
     },
     active: Boolean,
-    loading: Boolean,
+    loading: {
+      type: Boolean
+    },
     content: {
       type: String
     },
@@ -82,6 +85,12 @@ export default {
       required: true,
       default: () => ({})
     },
+    following: {
+      type: Boolean
+    },
+    status: {
+      type: Boolean
+    },
     btnsShown: {
       type: Array,
       default: () => ['next', 'prev'],
@@ -89,6 +98,19 @@ export default {
         return value.every((item) => item === 'next' || item === 'prev')
       }
     }
+  },
+  computed: {
+    ...mapState({
+      trendings: state => state.trendings.data
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchTrendins: 'fetchTrendings',
+      fetchReadMe: 'fetchReadMe',
+      fetchStarred: 'fetchStarred',
+      starRepo: 'starRepo'
+    })
   },
   emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'onFollow']
 

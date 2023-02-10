@@ -29,6 +29,16 @@
     color: #FFFFFF;
     font-weight: 700;
 }
+.btn-active {
+    background: #31AE54;
+    
+}
+.btn-inactive {
+    background: #9E9E9E;
+}
+.btn-inactive:hover::before {
+    content: none;
+}
 .loading {
     width: 40px;
     height: 40px;

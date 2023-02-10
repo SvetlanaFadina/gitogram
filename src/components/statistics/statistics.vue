@@ -3,7 +3,7 @@
     <table class="feed_table">
                         <tr>
                             <th class="th_star">
-                                <button class="btn likes_btn">
+                                <button class="btn likes_btn" onclick="$emit('like')">
                                     <div class="icon_pic">
                                         <icon name="star"></icon>
                                     </div>
@@ -42,7 +42,8 @@ export default {
     forks: {
       type: Number
     }
-  }
+  },
+  emits: ['like']
 }
 </script>
 

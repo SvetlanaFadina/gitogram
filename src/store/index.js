@@ -4,12 +4,18 @@ import { getReadme } from '@/api/rest/readme'
 import { getUser } from '../api/rest/user'
 import { starRepo, getStarredRepos } from '../api/rest/starred'
 import { getIssues } from '../api/rest/issues'
-import { getCode } from '../api/rest/auth'
+
 // import * as api from '../api'
 
 export default createStore({
   state: {
     trendings: {
+      data: []
+    },
+    starred: {
+      data: []
+    },
+    user: {
       data: []
     }
   },
@@ -19,7 +25,6 @@ export default createStore({
   },
   mutations: {
     SET_TRENDINGS: (state, trendings) => {
-      console.log('trendings', trendings)
       state.data = trendings.map((item) => {
         item.following = {
           status: false,
@@ -30,15 +35,14 @@ export default createStore({
       })
     },
     SET_ISSUES: (state, { id, issues }) => {
-      state.trendings.data = state.trendings.data.map((repo) => {
-        const editedRepo = repo
+      state.starred.data = state.starred.data.map((repo) => {
         if (repo.id === id) {
-          editedRepo.issues = issues
+          repo.issues = issues
         }
-        return editedRepo
+        return repo
       })
     },
-    SET_USER_DATA (state, payload) {
+    SET_USER_TRENDINGS (state, payload) {
       state.trendings.data = payload
     },
     SET_README: (state, payload) => {
@@ -50,7 +54,7 @@ export default createStore({
       })
     },
     SET_USER: (state, payload) => {
-      state.trendings.data = payload
+      state.user.data = payload
     },
     SET_FOLLOWING: (state, payload) => {
       state.trendings.data = state.trendings.data.map((repo) => {
@@ -64,7 +68,7 @@ export default createStore({
       })
     },
     SET_STARRED: (state, starred) => {
-      state.data = starred.map((repo) => {
+      state.starred.data = starred.map((repo) => {
         repo.following = true
         return repo
       })
@@ -75,7 +79,7 @@ export default createStore({
       try {
         const { data } = await getTrendings()
         console.log(data)
-        commit('SET_USER_DATA', data.items)
+        commit('SET_USER_TRENDINGS', data.items)
       } catch (error) {
 
       }
@@ -102,25 +106,49 @@ export default createStore({
       }
     },
     async starRepo ({ commit, getters }, id) {
-      const { name: repo, owner } = getters.getRepoById(id)
+      const { repo, owner } = getters.getRepoById(id)
+
+      commit('SET_FOLLOWING', {
+        id,
+        following: {
+          status: false,
+          loading: true,
+          error: ''
+        }
+      })
       try {
-        await starRepo({ owner: owner.login, repo })
+        const { data } = await starRepo({ owner: owner.login, repo })
+        console.log(data)
         commit('SET_FOLLOWING', {
           id,
-          data: {
-            status: false,
-            loading: true
+          following: {
+            status: true,
+            loading: true,
+            error: ''
           }
         })
       } catch (e) {
-        console.log(e)
-        throw e
+        commit('SET_FOLLOWING', {
+          id,
+          following: {
+            status: false,
+            error: 'Error'
+          }
+        })
+      } finally {
+        commit('SET_FOLLOWING', {
+          id,
+          data: {
+            loading: false
+          }
+        })
       }
     },
     async fetchIssues ({ commit }, { id, owner, repo }) {
       commit('SET_ISSUES', {
         id,
         issues: {
+          data: [],
           loading: true
         }
       })
@@ -151,16 +179,12 @@ export default createStore({
     async fetchStarred ({ commit }, payload) {
       try {
         const { data } = await getStarredRepos({ limit: payload?.limit })
-        console.log(data)
 
         commit('SET_STARRED', data)
       } catch (e) {
         console.log(e)
         throw e
       }
-    },
-    getCode () {
-      getCode()
     },
     logout () {
       localStorage.removeItem('token')

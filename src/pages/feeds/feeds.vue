@@ -19,7 +19,7 @@
             </template>
             <template #content>
                 <ul class="stories">
-                    <li class="stories-item" v-for="item in items" :key="item.id">
+                    <li class="stories-item" v-for="item in trendings" :key="item.id">
                         <story-user-item
                             :avatar="item.owner.avatar_url"
                             :username="item.owner.login"
@@ -32,14 +32,15 @@
     </div>
     <div class="feed_mainContent">
         <ul class="feed_list">
-            <li class="feed_item" v-for="star in stars" :key="star.id">
+            <li class="feed_item" v-for="star in starred" :key="star.id">
                 <feed class="feed_userInfo-icon"
                 :username="star.owner.login"
                 :stars="star.stargazers_count"
                 :forks="star.forks_count"
                 :avatar ="star.owner.avatar_url"
-                :loading="issues?.loading"
-                @loadContent="loadIssues({ id, owner: owner.login, repo: name })">
+                :loading="star.issues?.loading"
+                @loadContent="fetchIssues({ id: star.owner.id, owner: star.owner.login, repo: star.name })"
+                @like="handleLike">
                     <template #card>
                         <card
                         :description="star.description"
@@ -53,7 +54,6 @@
 </template>
 
 <script>
-import * as api from '../../api'
 import StoryUserItem from '@/components/storyUserItem/storyUserItem.vue'
 import { topline } from '../../components/topline'
 import { icon } from '../../icons'
@@ -75,10 +75,7 @@ export default {
   },
   data () {
     return {
-      items: [],
-      user: [],
-      stars: [],
-      issue: []
+      items: []
     }
   },
   props: {
@@ -101,32 +98,28 @@ export default {
   },
   computed: {
     ...mapState({
-      trendings: state => state.trendings.data
+      trendings: state => state.trendings.data,
+      starred: state => state.starred.data,
+      user: state => state.user.data
     })
   },
   methods: {
     ...mapActions({
-      fetchTrendins: 'fetchTrendings',
+      fetchTrendings: 'fetchTrendings',
       fetchReadMe: 'fetchReadMe',
       getUser: 'getUser',
       fetchIssues: 'fetchIssues',
       logout: 'logout',
       fetchStarred: 'fetchStarred'
     }),
-    loadIssues ({ id, owner, repo }) {
-      api.issues.getIssues({ id, owner, repo })
+    handleLike () {
     }
   },
   async created () {
     try {
-      await this.fetchTrendins()
-      const { data } = await api.trendings.getTrendings()
-      this.items = data.items
-      const user = await api.user.getUser()
-      this.user = user.data
-      const stars = await api.starred.getStarredRepos()
-      this.stars = stars.data
-      console.log(stars)
+      await this.getUser().then
+      await this.fetchTrendings()
+      await this.fetchStarred()
     } catch (error) {
       console.log(error)
     }

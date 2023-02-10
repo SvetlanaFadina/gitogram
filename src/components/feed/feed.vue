@@ -19,12 +19,12 @@
           <div class="loader" v-if="loading">
             <iLoader></iLoader>
           </div>
-          <div class="feed_comments" v-if="issues?.length && shown">
+          <div class="feed_comments" v-if="starred?.length && shown">
               <ul class="feed_comment-list">
-                  <li class="feed_comment-item" v-for="issue in issues" :key="issue.id">
+                  <li class="feed_comment-item" v-for="issue in starred" :key="issue.id">
                       <comment
-                              :username="issue.user.login"
-                              :text="issue.title">
+                              :username="issue.owner.login"
+                              :text="issue.name">
                       </comment>
                   </li>
               </ul>
@@ -63,14 +63,14 @@ export default {
   },
   computed: {
     ...mapState({
-      trendings: state => state.trendings.data
+      starred: state => state.starred.data
     })
   },
   methods: {
     toggle (isOpened) {
       this.shown = isOpened
 
-      if (isOpened && this.issues.length === 0) {
+      if (isOpened && this.starred.length === 0) {
         this.$emit('loadContent')
       }
     },
@@ -101,7 +101,7 @@ export default {
       default: () => []
     }
   },
-  emits: ['loadContent']
+  emits: ['loadContent', 'like']
 }
 </script>
 

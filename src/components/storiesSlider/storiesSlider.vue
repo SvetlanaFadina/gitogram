@@ -2,7 +2,7 @@
   <div class="stories_container">
   <div class="stories">
   <ul class="stories_list" ref="slider">
-    <li class="stories_item" v-for="trending, ndx in trendings" :key="trending.id" ref="item">
+    <li class="stories_item" v-for="trending, ndx, id in trendings" :key="trending.id" ref="item">
       <stories-slide
       :data="getStoryData(trending)"
       :active="ndx === index"
@@ -10,7 +10,7 @@
       :btnsShown="activeBtns"
       @onNextSlide="handleSlide(ndx + 1)"
       @onPrevSlide="handleSlide(ndx - 1)"
-      @onFollow="starRepo.id">
+      @onFollow="starRepo(id)">
     </stories-slide>
     </li>
    </ul>
@@ -38,6 +38,12 @@ export default {
     initialSlideId: {
       type: Number,
       required: true
+    },
+    following: {
+      type: Boolean
+    },
+    status: {
+      type: Boolean
     }
   },
   computed: {

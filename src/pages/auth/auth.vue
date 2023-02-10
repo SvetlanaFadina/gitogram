@@ -37,7 +37,7 @@ export default {
     storyButton
   },
   methods: {
-    getCode () {
+    async getCode () {
       const githubAuthApi = 'https://github.com/login/oauth/authorize'
       const params = new URLSearchParams()
 
@@ -70,20 +70,6 @@ export default {
         console.log(token)
       } catch (e) {
       }
-    }
-  },
-  async getUser () {
-    try {
-      const response = await fetch('https://api.github.com/user', {
-        headers: {
-          Authorization: `token ${localStorage.getItem('token')}`
-        }
-      })
-      const data = await response.json()
-      this.$router.replace({ name: 'feeds' })
-      console.log(data)
-    } catch (error) {
-      console.log(error)
     }
   }
 }
