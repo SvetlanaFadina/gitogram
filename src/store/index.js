@@ -11,7 +11,9 @@ export default createStore({
   state: {
     trendings: {
       data: [],
-      loading: false
+      status: false,
+      loading: false,
+      error: ''
     },
     starred: {
       data: []
@@ -20,9 +22,11 @@ export default createStore({
       data: []
     },
     repo: {
-      data: []
+      data: [],
+      status: false,
+      loading: false,
+      error: ''
     }
-
   },
   getters: {
     getRepoById: (state) => (id) => state.trendings.data.find((repo) => repo.id === id),

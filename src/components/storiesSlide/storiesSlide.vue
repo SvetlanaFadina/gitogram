@@ -23,12 +23,16 @@
         </div>
         <div class="border"></div>
         <div class="slider_button">
-        <story-button :loading="loading" @click="$emit(data.following.status ? 'unfollow' : 'follow', data.id)">
-          <template v-if="!data.following.status">
-          Follow
+        <story-button :loading="trendings.loading" @click="$emit(trendings.status ? 'unfollow' : 'follow', trendings.id)">
+          <template v-if="!trendings.status">
+            <span class="btn_text">
+              Follow
+            </span>
         </template>
         <template v-else>
-          Unfollow
+          <span class="btn_text">
+              Unfollow
+          </span>
         </template>
       </story-button>
         </div>
@@ -70,6 +74,7 @@ export default {
   },
   props: {
     data: {
+      loading: false,
       type: Object,
       required: true
     },

@@ -10,9 +10,18 @@
         background: #9E9E9E;
         padding: 0;
         padding-left: 110px;
-}
-}
 
+}
+}
+.disabled {
+  background: #9E9E9E;
+  padding: 15px 24px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    width: 270px;
+    height: 44px;
+    margin-bottom: 32px;
+}
 .btn_green{
     background: #31AE54;
 }
@@ -34,6 +43,10 @@
     display: inline;
   }
     
+}
+.btn_text {
+  color: #FFFFFF;
+  font-weight: 700;
 }
 
 .btn:hover::before {
