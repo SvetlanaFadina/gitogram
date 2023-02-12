@@ -5,57 +5,52 @@
     width: 270px;
     height: 44px;
     margin-bottom: 32px;
+   
+    &.loading, &.disabled {
+        background: #9E9E9E;
+        padding: 0;
+        padding-left: 110px;
+}
 }
 
 .btn_green{
-    background: green;
+    background: #31AE54;
 }
 .btn_grey{
     background: grey;
 }
 .btn::before {
-    content: "Follow";
+    content: "";
     color: #FFFFFF;
     font-weight: 700;
 }
 
 .btn:hover {
-    background: grey;
+    background: #9E9E9E;
+  .text {
+    display: none;
+  }
+  .hover-text {
+    display: inline;
+  }
     
 }
 
 .btn:hover::before {
-    content: attr(data-hover-text);
+    // content: attr(data-hover-text);
+    content: "";
     color: #FFFFFF;
     font-weight: 700;
 }
-.btn-active {
+button:not(:hover) {
     background: #31AE54;
-    
-}
-.btn-inactive {
-    background: #9E9E9E;
-}
-.btn-inactive:hover::before {
-    content: none;
-}
-.loading {
-    width: 40px;
-    height: 40px;
-    
-    border: 2px solid #f3f3f3;
-    border-top:3px solid green;
-    border-radius: 100%;
-    
-    animation: spin 1s infinite linear;
-}
 
-@keyframes spin {
-    from{
-        transform: rotate(0deg);
-    }to{
-        transform: rotate(360deg);
-    }
+    .text {
+        display: inline;
+      }
+      .hover-text {
+        display: none;
+      }
 }
 
 

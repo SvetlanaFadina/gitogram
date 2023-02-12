@@ -23,7 +23,14 @@
         </div>
         <div class="border"></div>
         <div class="slider_button">
-        <story-button @click="$emit('onFollow', data.id)" class="slider_btn" hover-text="Unfollow"></story-button>
+        <story-button :loading="loading" @click="$emit(data.following.status ? 'unfollow' : 'follow', data.id)">
+          <template v-if="!data.following.status">
+          Follow
+        </template>
+        <template v-else>
+          Unfollow
+        </template>
+      </story-button>
         </div>
     </div>
     <template v-if="active">
@@ -62,34 +69,24 @@ export default {
     icon
   },
   props: {
-    username: {
-      type: String,
-      required: true
-    },
-    avatar: {
-      type: String,
-      required: true
-    },
-    hoverText: {
-      type: String
-    },
-    active: Boolean,
-    loading: {
-      type: Boolean
-    },
-    content: {
-      type: String
-    },
     data: {
       type: Object,
-      required: true,
-      default: () => ({})
+      required: true
     },
     following: {
       type: Boolean
     },
-    status: {
-      type: Boolean
+    active: {
+      type: Boolean,
+      default: false
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     btnsShown: {
       type: Array,
@@ -112,7 +109,7 @@ export default {
       starRepo: 'starRepo'
     })
   },
-  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'onFollow']
+  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'follow', 'unfollow']
 
 }
 

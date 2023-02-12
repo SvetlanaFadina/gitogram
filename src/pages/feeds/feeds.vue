@@ -10,7 +10,7 @@
                         <icon class="svg" name="home"></icon>
                     </a>
                     <button class="icon_ref">
-                        <user :avatar="user.avatar_url"  class="feed_userInfo-icon-user" ></user>
+                        <user :avatar="user.avatar_url"  class="userInfo-icon24" @click="$router.push({ name: 'profile' })"></user>
                     </button>
                     <button class="icon_ref" @click="logout">
                         <icon class="svg" name="exit"></icon>
@@ -33,7 +33,7 @@
     <div class="feed_mainContent">
         <ul class="feed_list">
             <li class="feed_item" v-for="star in starred" :key="star.id">
-                <feed class="feed_userInfo-icon"
+                <feed
                 :username="star.owner.login"
                 :stars="star.stargazers_count"
                 :forks="star.forks_count"
@@ -117,7 +117,7 @@ export default {
   },
   async created () {
     try {
-      await this.getUser().then
+      await this.getUser()
       await this.fetchTrendings()
       await this.fetchStarred()
     } catch (error) {

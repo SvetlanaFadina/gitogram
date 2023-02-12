@@ -1,22 +1,28 @@
 <template>
-        <button :class="['btn', 'btn_green',
+        <button @click="$emit('click')" :class="[{loading, disabled},[ 'btn', 'btn_green'],
           {'hover-text': withHoverText}
         ]"
         :data-hover-text="hoverText">
-        <span class="btn_text">
+        <template v-if="loading">
+          <div class="spinner">
+            <spinner></spinner>
+          </div>
+        </template>
+        <template v-else>
+          <span class="btn_text"></span>
           <slot></slot>
-        </span>
+        </template>
         </button>
 </template>
 
 <script>
 
-// import { spinner } from '../spinner'
+import { spinner } from '../spinner'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   components: {
-    // spinner
+    spinner
   },
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'button',
@@ -25,10 +31,12 @@ export default {
       type: String
     },
     loading: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
-    status: {
-      type: Boolean
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

@@ -6,7 +6,7 @@
               <avatar :username="username" :avatar="avatar"></avatar>
           </div>
       </div>
-      <div class="x-container feed_container">
+      <div class="feed_container">
           <slot name="card">
               <card></card>
           </slot>

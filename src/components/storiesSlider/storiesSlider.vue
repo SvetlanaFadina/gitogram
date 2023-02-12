@@ -2,7 +2,7 @@
   <div class="stories_container">
   <div class="stories">
   <ul class="stories_list" ref="slider">
-    <li class="stories_item" v-for="trending, ndx, id in trendings" :key="trending.id" ref="item">
+    <li class="stories_item" v-for="(trending, ndx) in trendings" :key="trending.id" ref="item">
       <stories-slide
       :data="getStoryData(trending)"
       :active="ndx === index"
@@ -10,7 +10,8 @@
       :btnsShown="activeBtns"
       @onNextSlide="handleSlide(ndx + 1)"
       @onPrevSlide="handleSlide(ndx - 1)"
-      @onFollow="starRepo(id)">
+      @follow="followRepo"
+      @unfollow="unfollowRepo">
     </stories-slide>
     </li>
    </ul>
@@ -21,6 +22,7 @@
 <script>
 import { storiesSlide } from '../../components/storiesSlide'
 import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'storiesSlider',
   components: {
@@ -38,12 +40,6 @@ export default {
     initialSlideId: {
       type: Number,
       required: true
-    },
-    following: {
-      type: Boolean
-    },
-    status: {
-      type: Boolean
     }
   },
   computed: {
@@ -62,7 +58,8 @@ export default {
       fetchTrendins: 'fetchTrendings',
       fetchReadMe: 'fetchReadMe',
       fetchStarred: 'fetchStarred',
-      starRepo: 'starRepo'
+      starRepo: 'starRepo',
+      unStarRepo: 'unStarRepo'
     }),
     getStoryData (obj) {
       return {
@@ -73,6 +70,13 @@ export default {
         following: obj.following
       }
     },
+    followRepo (repoId) {
+      this.starRepo(repoId)
+    },
+    unfollowRepo (repoId) {
+      this.unStarRepo(repoId)
+    },
+
     async fetchReadmeForActiveSlide () {
       const { id, owner, name } = this.trendings[this.index]
       await this.fetchReadMe({ id, owner: owner.login, repo: name })

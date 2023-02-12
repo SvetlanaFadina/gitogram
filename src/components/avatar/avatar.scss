@@ -1,12 +1,9 @@
 .feed_userInfo {
     display: flex;
     align-items: center;
+    
 }
 .feed_userInfo-icon {
-    max-width: 44px;
-    min-width: 24px;
-    max-height: 44px;
-    min-height: 24px;
     border-radius: 50%;
     margin-right: 12px;
 }
@@ -14,3 +11,4 @@
     font-weight: 700;
     font-size: 14px;
 }
+
