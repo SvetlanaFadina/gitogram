@@ -65,7 +65,8 @@ export default {
         const { token } = await response.json()
 
         localStorage.setItem('token', token)
-        this.$router.replace({ name: 'feeds' })
+        // await fetch('https://api.github.com/user')
+        await this.$router.replace({ name: 'feeds' })
 
         console.log(token)
       } catch (e) {

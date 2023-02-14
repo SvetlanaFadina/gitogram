@@ -1,8 +1,10 @@
 <template>
-        <button @click="$emit('click')" :class="[{loading, disabled},[ 'btn', 'btn_green'],
+        <button :class="[{ 'loading': loading },['btn', 'btn_green', theme],
           {'hover-text': withHoverText}
         ]"
-        :data-hover-text="hoverText">
+        :disabled="isDisabled"
+        :data-hover-text="hoverText"
+        @click="$emit('onClick')">
         <template v-if="loading">
           <div class="spinner">
             <spinner></spinner>
@@ -30,13 +32,14 @@ export default {
     hoverText: {
       type: String
     },
-    loading: {
-      type: Boolean,
-      default: false
+    theme: {
+      type: String
     },
-    disabled: {
-      type: Boolean,
-      default: false
+    loading: {
+      type: Boolean
+    },
+    isDisabled: {
+      type: Boolean
     }
   },
   computed: {

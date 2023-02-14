@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchTrendins: 'fetchTrendings',
+      fetchTrendings: 'fetchTrendings',
       fetchReadMe: 'fetchReadMe',
       fetchStarred: 'fetchStarred',
       starRepo: 'starRepo',
@@ -111,6 +111,7 @@ export default {
       await this.handleSlide(ndx)
     }
     await this.loadReadme()
+    await this.fetchTrendings()
   }
 }
 </script>

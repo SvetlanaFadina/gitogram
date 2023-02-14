@@ -1,6 +1,6 @@
-<!-- eslint-disable no-unreachable -->
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="container">
+<div class="container">
     <div class="c-topline">
         <topline class="c-topline">
             <template #headline>
@@ -11,7 +11,7 @@
                     <button class="icon_ref" @click="$router.push({ name: 'feeds' })">
                         <icon class="svg" name="home"></icon>
                     </button>
-                    <button class="icon_ref">
+                    <button class="icon_ref" @click="$router.push({ name: 'profile' })">
                         <user :avatar="user.avatar_url" class="userInfo-icon24" ></user>
                     </button>
                     <button class="icon_ref" @click="logout">
@@ -32,56 +32,68 @@
               <div class="user-login">{{user?.login}}</div>
               <div class="user_info">
               <div class="name"><b>{{ user?.public_repos }}</b>  reposts</div>
-              <div class="name"><b>{{starred.length}}</b> <a href="http://localhost:8080/#/follow" class="watchers">watchers</a></div>
+              <div class="name"><b>{{starred.length}}</b>  <a href="#" class="watchers">watchers</a></div>
             </div>
             </div>
           </div>
         </div>
         <div class="col-2">
-          <h2 class="title repo-title">Repositories <span>{{repos?.length}}</span></h2>
-          <ul class="feed_list">
-            <li class="feed_item" v-for="star in starred" :key="star.id">
-              <feed
-                :stars="star.stargazers_count"
-                :forks="star.forks_count"
-                >
-                    <template #card>
-                        <card
-                        :description="star.description"
-                        :username="star.owner.login"
-                        ></card>
-                    </template>
-                </feed>
+            <div class="follow_header">
+                <h2 class="title">Following</h2>
+          <div class="follow_count" v-text="starred.length"></div>
+            </div>
+          <ul class="follow_list">
+            <li class="follow_item" v-for="star in starred" :key="star.id">
+                <div class="follow">
+                  <div class="user">
+                    <div class="user__avatar">
+                      <img
+                        :src="star.owner.avatar_url"
+                        alt="avatar owner"
+                        class="follow__avatar-img"
+                      />
+                    </div>
+                    <div class="user__info">
+                      <div class="user__nickname">{{ star.owner.login }}</div>
+                      <div class="user__profile">{{ star.owner.type }}</div>
+                    </div>
+                  </div>
+                  <story-button :loading="star.following?.loading" @click="star.following?.status ? starRepo(star.id) : unStarRepo(star.id)" class="btn follow_btn"></story-button>
+                  </div>
             </li>
           </ul>
         </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
 import { topline } from '../../components/topline'
 import { icon } from '../../icons'
 import { user } from '../../components/user/'
-import { feed } from '../../components/feed'
-import { card } from '../../components/card'
+import { storyButton } from '../../components/storyButton/'
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'following',
+  name: 'follow',
   components: {
     topline,
     icon,
     user,
-    feed,
-    card
+    storyButton
   },
   setup () {
     const { dispatch, state } = useStore()
     const logout = () => {
       dispatch('logout')
+    }
+    const unStarRepo = (id) => {
+      dispatch('unStarRepo', id)
+    }
+    const starRepo = (id) => {
+      dispatch('starRepo', id)
     }
     onMounted(() => {
       dispatch('fetchStarred')
@@ -90,10 +102,13 @@ export default {
     return {
       starred: computed(() => state.starred.data),
       user: computed(() => state.user.data),
-      logout
+      logout,
+      starRepo,
+      unStarRepo
     }
   }
 }
+
 </script>
 
-<style lang="scss" scoped src="./profile.scss"></style>
+<style lang="scss" scoped src="./follow.scss"></style>

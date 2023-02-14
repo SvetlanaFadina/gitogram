@@ -2,10 +2,10 @@
   <div class="wrapper wrapper_storyPage">
     <topline class="c-topline_black">
       <template #headline>
-        <button class="logo_button" @click="$router.push('/#')">
+        <button class="logo_button" @click="$router.push({ name: 'feeds' })">
           <icon class="logo_svg" name="gitogramWhite"></icon>
         </button>
-        <button class="logo_button" @click="$router.push('/#')">
+        <button class="logo_button" @click="$router.push({ name: 'feeds' })">
           <icon class="cross_svg" name="cross"></icon>
         </button>
       </template>

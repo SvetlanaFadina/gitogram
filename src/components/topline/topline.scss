@@ -4,16 +4,21 @@
 .c-topline {
     background: #FAFAFA;
     border-bottom: 1px solid #C6C6C8;
-    margin-bottom: 30px;
 }
 .c-topline_black {
     background: black;
     margin-bottom: 30px;
     border-bottom: 1px solid black;
 }
+.follow_container {
+    margin-bottom: 0;
+}
 
 .headline {
     display: flex;
     justify-content: space-between;
     padding: 45px;
+}
+.content {
+    padding-bottom: 37px;
 }

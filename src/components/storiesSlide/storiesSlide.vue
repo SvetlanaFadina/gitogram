@@ -23,18 +23,13 @@
         </div>
         <div class="border"></div>
         <div class="slider_button">
-        <story-button :loading="trendings.loading" @click="$emit(trendings.status ? 'unfollow' : 'follow', trendings.id)">
-          <template v-if="!trendings.status">
-            <span class="btn_text">
-              Follow
-            </span>
-        </template>
-        <template v-else>
-          <span class="btn_text">
-              Unfollow
-          </span>
-        </template>
-      </story-button>
+          <story-button :theme="data ? 'btn_grey' : 'btn_green'"
+            :loading="true"
+            @onClick="$emit(data ? 'unfollow' : 'follow', data.id)"
+            hover-text="Follow"
+      >
+        {{data ? 'unfollow' : 'follow'}}
+        </story-button>
         </div>
     </div>
     <template v-if="active">
@@ -89,10 +84,6 @@ export default {
       type: Boolean,
       default: false
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     btnsShown: {
       type: Array,
       default: () => ['next', 'prev'],
@@ -108,13 +99,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchTrendins: 'fetchTrendings',
+      fetchTrendings: 'fetchTrendings',
       fetchReadMe: 'fetchReadMe',
       fetchStarred: 'fetchStarred',
       starRepo: 'starRepo'
     })
   },
-  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'follow', 'unfollow']
+  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'follow', 'unfollow'],
+
+  async created () {
+    await this.fetchTrendings
+  }
 
 }
 

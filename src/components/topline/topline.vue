@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="c-topline">
-        <div class="x-container topline_container">
+        <div class="x-container topline_container follow_container">
             <div class="headline">
                 <slot name="headline">
                   <user v-for="item in items" :key="item.id">
