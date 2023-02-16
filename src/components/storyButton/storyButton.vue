@@ -1,5 +1,5 @@
 <template>
-        <button :class="[{ 'loading': loading },['btn', 'btn_green', theme],
+        <button :class="[{ 'loading': loading },{ disabled }, ['btn', theme],
           {'hover-text': withHoverText}
         ]"
         :disabled="isDisabled"
@@ -33,13 +33,16 @@ export default {
       type: String
     },
     theme: {
-      type: String
+      type: String,
+      default: 'btn btn_green'
     },
     loading: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     isDisabled: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   computed: {

@@ -113,6 +113,7 @@ export default {
       fetchStarred: 'fetchStarred'
     }),
     handleLike () {
+      console.log('like')
     }
   },
   async created () {

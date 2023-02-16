@@ -1,8 +1,5 @@
-.likes{
-    display: flex;
-}
-
 .icon_pic {
+    width: 14px;
     margin-right: 5px;
 }
 
@@ -13,31 +10,24 @@
 .fork-amount {
     padding-left: 5px;
 }
-table {
-    border-collapse: collapse;
-   
+
+.stats {
+    display: flex;
     
-}
-th {
-    border: 1px solid rgba(27, 31, 35, 0.15);
- }
-.th_star {
-    border-top: 0;
-    border-bottom: 0;
-    border-left: 0;
-}
-.th_likes {
-    border-top: 0;
-    border-bottom: 0;
-    padding: 0 5px;
-}
-.th_fork {
-    border-top: 0;
-    border-bottom: 0;
-}
-.th_amount {
-    border-top: 0;
-    border-bottom: 0;
-    border-right: 0;
-    padding-left: 6px;
+    &_border {
+        display: flex;
+        align-items: center;
+        border: 1px solid rgba(27, 31, 35, 0.15);
+        padding: 0 10px;
+    }
+    
+    &_right {
+        border-radius: 6px 0px 0px 6px;
+        background: #FAFBFC;
+    }
+
+    &_left {
+        border-radius: 0px 6px 6px 0px;
+        background: #FAFBFC;
+    }
 }

@@ -23,12 +23,11 @@
         </div>
         <div class="border"></div>
         <div class="slider_button">
-          <story-button :theme="data ? 'btn_grey' : 'btn_green'"
-            :loading="true"
-            @onClick="$emit(data ? 'unfollow' : 'follow', data.id)"
-            hover-text="Follow"
+          <story-button
+            :theme="data.following ? 'btn_grey' : 'btn_green'"
+            @onClick="$emit(data.following ? 'unfollow' : 'follow', data.id)"
       >
-        {{data ? 'unfollow' : 'follow'}}
+        {{data.following ? 'unfollow' : 'follow'}}
         </story-button>
         </div>
     </div>
@@ -69,18 +68,22 @@ export default {
   },
   props: {
     data: {
-      loading: false,
       type: Object,
-      required: true
+      default: () => {}
     },
     following: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     active: {
       type: Boolean,
       default: false
     },
     loading: {
+      type: Boolean,
+      default: false
+    },
+    status: {
       type: Boolean,
       default: false
     },
@@ -105,11 +108,11 @@ export default {
       starRepo: 'starRepo'
     })
   },
-  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'follow', 'unfollow'],
+  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'follow', 'unfollow']
 
-  async created () {
-    await this.fetchTrendings
-  }
+  // async created () {
+  // await this.fetchTrendings
+  // }
 
 }
 

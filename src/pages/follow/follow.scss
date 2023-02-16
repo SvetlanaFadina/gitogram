@@ -157,7 +157,6 @@
     width: 115px;
     height: 42px;
     margin-bottom: 32px;
-    background: #31AE54;
    
     &.loading, &.disabled {
         background: #9E9E9E;
@@ -167,13 +166,12 @@
     }
 }
 .btn::before {
-    content: "following";
+    content: "";
     color: #FFFFFF;
     font-weight: 700;
 }
 
 .btn:hover {
-    background: #9E9E9E;
   .text {
     display: none;
   }
@@ -189,7 +187,7 @@
 
 .btn:hover::before {
     // content: attr(data-hover-text);
-    content: "unfollow";
+    content: "";
     color: #FFFFFF;
     font-weight: 700;
 }

@@ -58,7 +58,11 @@
                       <div class="user__profile">{{ star.owner.type }}</div>
                     </div>
                   </div>
-                  <story-button :loading="star.following?.loading" @click="star.following?.status ? starRepo(star.id) : unStarRepo(star.id)" class="btn follow_btn"></story-button>
+                  <story-button
+                  :theme="star.following ? 'btn_grey' : 'btn_green'"
+                  @click="star.following ? starRepo(star.id) : unStarRepo(star.id)" class="follow_btn">
+                  {{star.following ? 'unfollow' : 'follow'}}
+                  </story-button>
                   </div>
             </li>
           </ul>
@@ -96,11 +100,11 @@ export default {
       dispatch('starRepo', id)
     }
     onMounted(() => {
-      dispatch('fetchStarred')
+      dispatch('fetchTrendings')
       dispatch('getUser')
     })
     return {
-      starred: computed(() => state.starred.data),
+      starred: computed(() => state.trendings.data),
       user: computed(() => state.user.data),
       logout,
       starRepo,

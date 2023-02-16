@@ -28,6 +28,7 @@
 import { icon } from '../../icons'
 import { storyButton } from '../../components/storyButton'
 import env from '../../../env.js'
+import axios from 'axios'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -42,7 +43,7 @@ export default {
       const params = new URLSearchParams()
 
       params.append('client_id', env.clientId)
-      params.append('scope', 'repo:status public_repo read:user user:follow')
+      params.append('scope', 'repo:status public_repo read:user')
 
       window.location.href = `${githubAuthApi}?${params}`
     }
@@ -65,7 +66,7 @@ export default {
         const { token } = await response.json()
 
         localStorage.setItem('token', token)
-        // await fetch('https://api.github.com/user')
+        axios.defaults.headers.Authorization = `token ${token}`
         await this.$router.replace({ name: 'feeds' })
 
         console.log(token)

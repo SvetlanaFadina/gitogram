@@ -11,21 +11,17 @@ export default createStore({
   state: {
     trendings: {
       data: [],
-      status: false,
-      loading: false,
-      error: ''
+      following: {
+        status: Boolean,
+        loading: Boolean,
+        error: ''
+      }
     },
     starred: {
       data: []
     },
     user: {
       data: []
-    },
-    repo: {
-      data: [],
-      status: false,
-      loading: false,
-      error: ''
     }
   },
   getters: {
@@ -34,13 +30,13 @@ export default createStore({
   },
   mutations: {
     SET_TRENDINGS: (state, trendings) => {
-      state.trendings.data = trendings.map((item) => {
-        item.following = {
+      state.trendings.data = trendings.map((repo) => {
+        repo.following = {
           status: false,
           loading: false,
           error: ''
         }
-        return item
+        return repo
       })
     },
     SET_ISSUES: (state, { id, issues }) => {
@@ -157,7 +153,7 @@ export default createStore({
     },
     async unStarRepo ({ commit, getters }, id) {
       console.log(getters.getRepoById(id))
-      const { name, author } = getters.getRepoById(id)
+      const { name, owner } = getters.getRepoById(id)
 
       commit('SET_FOLLOWING', {
         id,
@@ -169,7 +165,7 @@ export default createStore({
       })
 
       try {
-        await unStarRepo({ owner: author, repo: name })
+        await unStarRepo({ owner: owner.login, repo: name })
         commit('SET_FOLLOWING', {
           id,
           data: {
