@@ -62,7 +62,7 @@ export default {
       unStarRepo: 'unStarRepo'
     }),
     getStoryData (obj) {
-      console.log(obj.following)
+      console.log(obj.owner)
       return {
         id: obj.id,
         avatar: obj.owner?.avatar_url,

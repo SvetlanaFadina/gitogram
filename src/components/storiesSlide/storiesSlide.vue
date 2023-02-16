@@ -24,6 +24,7 @@
         <div class="border"></div>
         <div class="slider_button">
           <story-button
+            :loading="data.following"
             :theme="data.following ? 'btn_grey' : 'btn_green'"
             @onClick="$emit(data.following ? 'unfollow' : 'follow', data.id)"
       >
@@ -69,21 +70,13 @@ export default {
   props: {
     data: {
       type: Object,
-      default: () => {}
-    },
-    following: {
-      type: Boolean,
-      default: false
+      default: () => ({})
     },
     active: {
       type: Boolean,
       default: false
     },
     loading: {
-      type: Boolean,
-      default: false
-    },
-    status: {
       type: Boolean,
       default: false
     },

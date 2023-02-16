@@ -10,12 +10,7 @@ import { getIssues } from '../api/rest/issues'
 export default createStore({
   state: {
     trendings: {
-      data: [],
-      following: {
-        status: Boolean,
-        loading: Boolean,
-        error: ''
-      }
+      data: []
     },
     starred: {
       data: []
